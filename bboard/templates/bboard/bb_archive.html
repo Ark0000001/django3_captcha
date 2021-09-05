@@ -1,0 +1,9 @@
+{% extends "layout/basic.html" %}
+{% block content %}
+
+    <p>
+            {% for d in date_list %}
+                {{ d.published }}
+            {% endfor %}
+        </p>
+{% endblock %}

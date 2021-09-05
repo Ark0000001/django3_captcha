@@ -1,0 +1,65 @@
+{% load bootstrap4 %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Главная{% endblock %} - Доска
+        объявлений</title>
+
+    {% if user.is_authenticated %}
+        <span class="nav-link root font-weight-bold"><p>Добро пожаловать, {{ user.username }}</p> </span>{% endif %}
+
+    <div class="row">
+        <ul class="col nav justify-content-end border">
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Вход</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Выход</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'password_change' %}">Смена пароля</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'reset_password' %}">Сброс пароля по почте</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'bboard:search' %}">поиск</a></li>
+
+        </ul>
+    </div>
+
+    {% bootstrap_css %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'main/style.css' %}">
+    {% bootstrap_javascript jquery='slim' %}
+</head>
+<body class="container-fluid">
+<header class="mb-4">
+    <h1 class="display-1 text-center">НОВОСТИ МЕТАЛЛА</h1>
+</header>
+
+
+<div class="row">
+    <nav class="col-md-auto nav flex-column border">
+
+        <a class="nav-link root" href="{% url 'bboard:index' %}">Главная</a>
+        <a class="nav-link root" href="{% url 'bboard:add' %}">Добавить новость</a>
+
+        {% for rubric in rubrics %}
+            <a class="nav-link root" href="{% url 'bboard:by_rubric' rubric.pk %}"> <span
+                    class="nav-link root font-weight-bold">{{ rubric.name }}</span></a>
+        {% endfor %}
+
+
+
+
+        <p>----- {% now 'SHORT_DATE_FORMAT' %}</p>
+
+    </nav>
+
+    <section class="col border py-2">
+        {% bootstrap_messages %}
+        {% block content %}
+        {% endblock %}
+    </section>
+</div>
+<footer class="mt-3">
+    <p class="text-right font-italic">&copy; ARK------</p>
+</footer>
+</body>
+</html>
